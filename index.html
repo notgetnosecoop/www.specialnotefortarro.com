@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Toan!</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #dbeeff;
+      background-image: url("vecteezy_vector-abstract-seamless-pattern-of-many-hearts-on-blue_5384360.jpg");
+      background-repeat: repeat;
+      background-position: center top;
+      background-size: 300px auto;
+      padding-top: 60px;
+      padding-bottom: 200px;
+    }
+
+    /* Welcome Overlay Screen */
+    #welcome-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(219, 238, 255, 0.94);
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      transition: opacity 0.5s ease;
+    }
+
+    #welcome-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .open-btn {
+      padding: 18px 36px;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #ffffff;
+      background-color: #6c7585;
+      border: 4px solid #ffffff;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0px 8px 25px rgba(108, 117, 133, 0.35);
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      z-index: 100000;
+    }
+
+    .open-btn:hover {
+      transform: scale(1.05);
+      background-color: #555d6b;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 3.2rem;
+      font-weight: bold;
+      color: #6c7585;
+      text-shadow: 0px 2px 10px rgba(255, 255, 255, 0.9), 0px 0px 20px rgba(255, 255, 255, 1);
+      letter-spacing: 1px;
+      margin-bottom: 40px;
+    }
+
+    .content-wrapper {
+      position: relative;
+      width: 92%;
+      max-width: 850px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .bg-character {
+      position: absolute;
+      top: 320px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 550px;
+      max-width: 90vw;
+      height: auto;
+      opacity: 0.55;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .message-box {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      text-align: center;
+      color: #3b4452;
+      padding: 10px;
+    }
+
+    .message-box p {
+      font-size: 1.25rem;
+      line-height: 1.85;
+      font-weight: 700;
+      text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.95), 0px 0px 18px rgba(255, 255, 255, 1);
+      margin-bottom: 22px;
+    }
+
+    .message-box p.final-emphasis {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: #242b36;
+      margin-top: 30px;
+      text-shadow: 0px 0px 12px rgba(255, 255, 255, 1), 0px 0px 22px rgba(255, 255, 255, 1);
+    }
+
+    .media-container {
+      margin-top: 80px;
+      z-index: 3;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .big-frame {
+      max-width: 850px;
+      width: 100%;
+      border: 6px solid #6c7585;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0px 8px 25px rgba(108, 117, 133, 0.25);
+    }
+
+    .big-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    #music-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      width: 48px;
+      height: 48px;
+      background: rgba(108, 117, 133, 0.88);
+      color: white;
+      border: 2.5px solid white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.18);
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    #music-toggle:hover {
+      transform: scale(1.08);
+      background: rgba(85, 93, 107, 0.95);
+    }
+
+    #music-toggle svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Audio File -->
+  <audio id="bg-music" loop>
+    <source src="Music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Click-to-Open Overlay -->
+  <div id="welcome-overlay">
+    <button class="open-btn" onclick="startExperience()">click this birthday goober</button>
+  </div>
+
+  <!-- Top-Right Play/Pause Icon Button -->
+  <button id="music-toggle" onclick="toggleMusic()" aria-label="Toggle Music" title="Play/Pause Music">
+    <svg id="pause-icon" viewBox="0 0 24 24">
+      <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+      <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+    </svg>
+    <svg id="play-icon" viewBox="0 0 24 24" style="display: none; margin-left: 2px;">
+      <polygon points="6,4 20,12 6,20"></polygon>
+    </svg>
+  </button>
+
+  <h1 class="title">Happy Birthday Toan!</h1>
+
+  <div class="content-wrapper">
+    <img src="party birthday.png" alt="Party Character" class="bg-character">
+
+    <div class="message-box">
+      <p>Hey there Toan, it's almost 4 years since we met. I've been through a lot of things for this year you had seen my phases over the past months, but you've been always there by my side. Back in our early days when you made a tail model for me, it actually caught my mind on you eventually, we ended up chilling.</p>
+
+      <p>Some things you mentioned on how your experience and enjoyment of your life, or something secrets you told me that you don't tell to others (but I eventually forgot some of them).</p>
+
+      <p>But there's only one thing that shocked me most, unlike anyone else. That is out of nowhere you made a standee of one of my OC which nobody has done before. For out of many and anything else, you picked that piece of me. Which is very special that I cannot express until even in the present. From that day on, I totally changed my perspective to you.</p>
+
+      <p>Whenever, even how busy or how important in a personal situation or how tight a situation I am in, once I got a message from you I immediately check on you, and may tell you what I'm doing. I got a strong fondness of you, that's why I talk to you most, more than anyone else.</p>
+
+      <p>I really don't have someone else I can mostly talk but you. I don't have a girlfriend that usually other people mostly spend time with, so whenever something happened I always end up oversharing to you. Even a slight different vibe tone or any different details whenever you talk, I always notice it. Even that one time you said last week ago "I don't feel so good", I can't stop but to wonder what happened and ask why.</p>
+
+      <p>However this is the problem of mine, due to how random I talk there's always a time I end up messing up and end up misunderstanding the situation. Some of it may cause anyone to get confused or mad like in our past whenever I run out on what I talk with, it's usually something stupid which may trigger you, and that's the bad habit of mine, ever since from Dep too. Or even irl I talk, I delivered something wrong just to respond with my poor communication.</p>
+
+      <p>Jump to present: you had so many changes, I've been looking out for you. Look, I'm sorry that made you think I'm guilt tripping you; it wasn't my intention to bring that. I was sending reels that indirectly felt relatable to our experience.</p>
+
+      <p>Although we usually played together back in the day and I miss that our night gameplay that my parents always caught me playing at late night. It's the only thing keeping us dry; I always ask "how are you" or "what you doing" or ask to play together.</p>
+
+      <p>Now that things had changed, you have made a lot of friends who are far better than me. I don't blame you for it. You are a good man and a good heart deserves better I'm not really everyone's first option.</p>
+
+      <p>I always felt fear of missing out as much as I want to talk to you still and I really don't like our conversation so cold and dried up, but you want to be alone, this time I will give you that space and mark my words for it, although it hurts me feeling so lonely without how we used to talk.</p>
+
+      <p>Now that you have a girlfriend who I indirectly introduced and told you about, probably you taking notes too from her. I shouldn't be sad about it, but instead be happy knowing the fact you finally found your happiness. Hoping the best for you if you were happy being with her, so am I.</p>
+
+      <p class="final-emphasis">I may have few friends in personal and online, but you were above all of them. I place you on special more than anyone else. I'm so glad that I meet you if it wasn't for you, I'd very likely wouldn't exist media and moving forward, You are the Real one I always be there to support you.</p>
+    </div>
+
+    <div class="media-container">
+      <div class="big-frame">
+          <img src="roblox.png" alt="Roblox Party Scene">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const music = document.getElementById('bg-music');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+
+    function updateIcon(isPlaying) {
+      if (isPlaying) {
+        pauseIcon.style.display = 'block';
+        playIcon.style.display = 'none';
+      } else {
+        pauseIcon.style.display = 'none';
+        playIcon.style.display = 'block';
+      }
+    }
+
+    function startExperience() {
+      music.volume = 0.5;
+      music.play().catch(e => console.log("Audio play blocked:", e));
+      updateIcon(true);
+      document.getElementById('welcome-overlay').classList.add('hidden');
+    }
+
+    function toggleMusic() {
+      if (music.paused) {
+        music.play();
+        updateIcon(true);
+      } else {
+        music.pause();
+        updateIcon(false);
+      }
+    }
+  </script>
+
+</body>
+</html>
